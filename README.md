@@ -13,3 +13,4 @@ Lyra, named after the constellation representing the lyre of Orpheus in Greek my
 - Electron client
 - Rich LLM
 - Simple interface
+- Track metrics
