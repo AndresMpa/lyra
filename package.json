@@ -1,0 +1,17 @@
+{
+  "name": "lyra",
+  "version": "1.0.0",
+  "description": "A virtual assistant for GNU/Linux",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'To do: test'"
+  },
+  "keywords": [
+    "IA",
+    "Virtual",
+    "Assistant",
+    "GNU/Linux"
+  ],
+  "author": "AndresMpa, xcerock",
+  "license": "ISC"
+}
