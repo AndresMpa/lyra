@@ -13,5 +13,8 @@
     "GNU/Linux"
   ],
   "author": "AndresMpa, xcerock",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^30.0.2"
+  }
 }
