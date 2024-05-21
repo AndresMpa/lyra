@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lyra</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <button class="navbar-button">add</button>
+      <button class="navbar-button">menu</button>
+    </nav>
+
+    <section class="logo">
+      <figure class="logo-box">
+        <div class="logo-box-circle"></div>
+        <div class="logo-box-circle-variant"></div>
+        <img
+          class="logo-box-img"
+          src="./assets/figures/logo.png"
+          alt="Lyra logo"
+        />
+        <figcaption class="logo-box-title">Your Cosmic Companion</figcaption>
+      </figure>
+    </section>
+
+    <main class="widget">
+      <article class="widget-container">
+        <div>
+          <h2 class="widget-container-title">CPU</h2>
+          <ul class="widget-container-data">
+            <li id="usedCpu" class="widget-container-item">Used:</li>
+            <li id="freeCpu" class="widget-container-item">Free:</li>
+          </ul>
+        </div>
+        <canvas class="widget-container-percentage"></canvas>
+      </article>
+      <article class="widget-container">
+        <div>
+          <h2 class="widget-container-title">RAM</h2>
+          <ul class="widget-container-data">
+            <li id="usedRam" class="widget-container-item">Used:</li>
+            <li id="freeRam" class="widget-container-item">Free:</li>
+          </ul>
+        </div>
+        <canvas class="widget-container-percentage"></canvas>
+      </article>
+      <article class="widget-container">
+        <div>
+          <h2 class="widget-container-title">Disk</h2>
+          <ul class="widget-container-data">
+            <li id="usedDisk" class="widget-container-item">Used:</li>
+            <li id="freeDisk" class="widget-container-item">Free:</li>
+          </ul>
+        </div>
+        <canvas class="widget-container-percentage"></canvas>
+      </article>
+      <article class="widget-container">
+        <div>
+          <h2 class="widget-container-title">Packages</h2>
+          <ul class="widget-container-data">
+            <li id="amountPkg" class="widget-container-item">Pkg:</li>
+          </ul>
+        </div>
+        <canvas class="widget-container-percentage"></canvas>
+      </article>
+    </main>
+
+    <section class="message-box none">
+      <article class="lyra-message">
+        <p class="lyra-message-content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
+          repellendus blanditiis officiis! Blanditiis porro cum possimus
+          distinctio. Iste quos quis repellat, architecto suscipit soluta
+          officia illum quidem omnis quod. Vitae.
+        </p>
+      </article>
+      <article class="user-message">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
+          repellendus blanditiis officiis! Blanditiis porro cum possimus
+          distinctio. Iste quos quis repellat, architecto suscipit soluta
+          officia illum quidem omnis quod. Vitae.
+        </p>
+      </article>
+    </section>
+
+    <section class="prompt">
+      <input
+        class="prompt-chat"
+        type="text"
+        name="prompt"
+        placeholder="Your Cosmic Companion"
+      />
+      <footer class="footer">
+        <p>
+          We are using Node.js <span id="node-version"></span>, Chromium
+          <span id="chrome-version"></span>, and Electron
+          <span id="electron-version"></span>.
+        </p>
+      </footer>
+    </section>
+
+    <aside class="menu none">
+      <figure class="menu-container">
+        <a href="https://github.com/AndresMpa/lyra" target="_blank">
+          <img
+            src="./assets/figures/github.png"
+            alt="GitHub: https://github.com/AndresMpa/lyra"
+          />
+          <figcaption>Follow the project</figcaption>
+        </a>
+      </figure>
+      <br />
+      <input type="checkbox" name="name" placeholder="text" />
+    </aside>
+  </body>
+</html>

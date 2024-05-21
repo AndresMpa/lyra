@@ -1,0 +1,15 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-2)
+}
+
+.navbar-button {
+  background-color: var(--background-3);
+  border-radius: 5px;
+  border: none;
+  height: 32px;
+  width: 32px;
+
+  margin: 8px 20px;
+}

@@ -4,6 +4,7 @@
   "description": "A virtual assistant for GNU/Linux",
   "main": "index.js",
   "scripts": {
+    "start": "electron ./main.js",
     "test": "echo 'To do: test'"
   },
   "keywords": [
@@ -15,6 +16,10 @@
   "author": "AndresMpa, xcerock",
   "license": "ISC",
   "dependencies": {
-    "electron": "^30.0.2"
+    "electron": "^30.0.2",
+    "electron-chartjs": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19"
   }
 }

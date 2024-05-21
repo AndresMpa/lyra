@@ -1,0 +1,49 @@
+:root {
+  --background-1: #151423;
+  --background-2: #2a2839;
+  --background-3: #7a7c9b;
+
+  --decoration-1: #5a3234;
+  --decoration-2: #411c1f;
+  --decoration-3: #fd6155;
+
+  --decoration-alt-1: #e1c6be;
+  --decoration-alt-2: #b7b1be;
+
+  --letter: #f6f3e4;
+  --link: #95373c;
+}
+
+* {
+  margin: 0%;
+  padding: 0%;
+  color: var(--letter);
+  overflow-anchor: none;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  height: 100vh;
+  min-height: 100vh;
+  background-color: var(--background-1);
+}
+
+ul,
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: var(--links);
+}
+
+:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: var(--decoration-2);
+  opacity: 0.6;
+}

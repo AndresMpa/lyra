@@ -2,7 +2,7 @@
 ##                             EXTRA IGNORED DEPENDENCIES                      ##
 #################################################################################
 
-node_modules
+*/node_modules
 
 # Created by https://www.toptal.com/developers/gitignore/api/vim,virtualenv,dotenv,python,pythonvanilla,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=vim,virtualenv,dotenv,python,pythonvanilla,node

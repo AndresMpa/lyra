@@ -1,0 +1,42 @@
+.message-box {
+  width: 96vw;
+  margin: auto;
+}
+
+.lyra-message,
+.user-message {
+  max-width: 80vw;
+
+  margin: 5px 0px;
+  padding: 10px 20px;
+
+  color: var(--letter);
+
+  border-radius: 5px;
+  border: 1px solid var(--decoration-alt-2);
+}
+
+.lyra-message {
+  text-align: left;
+  background-color: var(--background-2);
+  animation: fadeInBottom 0.8s ease-in-out forwards;
+}
+
+.user-message {
+  margin: 20px 0px 20px auto;
+
+  text-align: right;
+  background-color: var(--background-1);
+  animation: fadeInBottom 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
