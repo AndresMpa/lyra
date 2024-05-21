@@ -1,0 +1,8 @@
+.footer {
+  margin-bottom: 5px;
+
+  font-size: 0.5em;
+  font-weight: 100;
+  text-align: center;
+  color: var(--link);
+}

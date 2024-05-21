@@ -1,0 +1,27 @@
+.prompt {
+  grid-row: 5;
+  display: flex;
+  flex-direction: column;
+
+  bottom: 0;
+  position: fixed;
+
+  width: 100%;
+  background-color: var(--background-2);
+}
+
+.prompt-chat {
+  background-color: var(--background-3);
+  border-radius: 5px;
+  border: none;
+
+  color: var(--decoration-2);
+  font-weight: 900;
+
+  padding-left: 8px;
+  margin: 6px auto;
+
+  width: 96%;
+  height: auto;
+  min-height: 34px;
+}
