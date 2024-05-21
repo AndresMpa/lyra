@@ -1,0 +1,25 @@
+{
+  "name": "lyra",
+  "version": "1.0.0",
+  "description": "A virtual assistant for GNU/Linux",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./main.js",
+    "test": "echo 'To do: test'"
+  },
+  "keywords": [
+    "IA",
+    "Virtual",
+    "Assistant",
+    "GNU/Linux"
+  ],
+  "author": "AndresMpa, xcerock",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^30.0.2",
+    "electron-chartjs": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19"
+  }
+}
