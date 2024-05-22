@@ -19,12 +19,10 @@
   padding: 0%;
   color: var(--letter);
   overflow-anchor: none;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", "Nunito", "Montserrat", sans-serif;
 }
 
 body {
-  height: 100vh;
-  min-height: 100vh;
   background-color: var(--background-1);
 }
 
@@ -37,6 +35,25 @@ li {
 a {
   text-decoration: none;
   color: var(--links);
+}
+
+.icon {
+  width: 12px;
+}
+
+.big-icon {
+  width: 24px;
+}
+
+.decoration {
+  border: 1px solid var(--decoration-1);
+}
+
+.app {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 :focus {
