@@ -10,6 +10,11 @@
   background-color: var(--background-2);
 }
 
+.prompt-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .prompt-chat {
   background-color: var(--background-3);
   border-radius: 5px;
@@ -21,7 +26,24 @@
   padding-left: 8px;
   margin: 6px auto;
 
-  width: 96%;
+  width: 95vw;
   height: auto;
   min-height: 34px;
+}
+
+.prompt-button {
+  height: 32px;
+  width: 32px;
+
+  margin: 6px auto;
+
+  border: none;
+  border-radius: 5px;
+  background-color: var(--background-3);
+}
+
+@media screen and (max-width: 700px) {
+  .prompt-chat {
+    width: 90vw;
+  }
 }
