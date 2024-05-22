@@ -56,9 +56,8 @@
   margin: 8px auto 0px;
 
   overflow: hidden;
-  font-style: italic;
   white-space: nowrap;
-  letter-spacing: 0.15em;
+  font-family: "Bukhari Script", sans-serif;
 
   border-right: 0.15em solid var(--decoration-3);
   color: var(--letter);
