@@ -1,6 +1,11 @@
 .message-box {
+  max-height: -webkit-fill-available;
   width: 96vw;
   margin: auto;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .lyra-message,
