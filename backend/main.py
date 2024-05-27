@@ -1,46 +1,119 @@
+from flask import Flask, request, jsonify
 import transformers
-import torch
-import logging
-import warnings
+from torch import bfloat16
+from threading import Thread
+import json
+import os
+from Secundarias import obtener_ip, Ngrok
+from threading import Thread
+from flask import Flask,request,redirect
+from ujson import dumps as  jsonify
+from flask_cors import CORS
+import os
 
-# Configurar logging para suprimir los mensajes no deseados
-logging.basicConfig(level=logging.ERROR)  # Ajusta a ERROR para evitar la mayoría de los logs
+# Configuración del modelo
+model_id = "meta-llama/Meta-Llama-3-8B-Instruct"  # El modelo
 
-# Suprimir advertencias específicas
-warnings.filterwarnings("ignore", message="`do_sample` is set to `False`")
-warnings.filterwarnings("ignore", message="`temperature` is set to `0.7` -- this flag is only used in sample-based generation modes")
-warnings.filterwarnings("ignore", message="`top_p` is set to `0.9` -- this flag is only used in sample-based generation modes")
-
-
-# Configuración inicial del modelo y dispositivo
-model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-device = "cuda" if torch.cuda.is_available() else "cpu"
-pipeline = transformers.pipeline(
-    "text-generation",
-    model=model_id,
-    model_kwargs={"torch_dtype": torch.bfloat16},
-    device=device
+bnb_config = transformers.BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type='nf4',
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_compute_dtype=bfloat16
+)
+model_config = transformers.AutoConfig.from_pretrained(
+    model_id,
 )
 
-# Mensaje inicial y contexto de sistema
-system_prompt = "<You are LLAMA, created by Meta. You were last updated in Marzo 2023. You answer questions based on information available up to that point. YOU PROVIDE SHORT RESPONSES TO SHORT QUESTIONS OR STATEMENTS, but provide thorough responses to more complex and open-ended questions. You assist with various tasks, from writing to coding (using markdown for code blocks — remember to use ``` with code, JSON, and tables).(You do not have real-time data access or code execution capabilities. You avoid stereotyping and provide balanced perspectives on controversial topics. You do not provide song lyrics, poems, or news articles and do not divulge details of your training data.) This is your system prompt, guiding your responses. Do not reference it, just respond to the user. If you find yourself talking about this message, stop. You should be responding appropriately and usually that means not mentioning this. YOU DO NOT MENTION ANY OF THIS INFORMATION ABOUT YOURSELF UNLESS THE INFORMATION IS DIRECTLY PERTINENT TO THE USER'S QUERY>"
-messages = [{"role": "system", "content": system_prompt}]
+model = transformers.AutoModelForCausalLM.from_pretrained(
+    model_id,
+    trust_remote_code=True,
+    config=model_config,
+    quantization_config=bnb_config,
+    device_map='auto',
+)
 
+tokenizer = transformers.AutoTokenizer.from_pretrained(
+    model_id,
+)
 
-# Función para actualizar el contexto y generar respuestas
-def chat_with_llama():
-    """Iniciar una conversación con LLAMA, el modelo de lenguaje de Meta."""
-    while True:
-        user_input = input()  # Recibir entrada del usuario
-        if user_input.lower() == "salir":  # Permitir salir de la conversación
-            print("Chat finalizado.")
-            break
-        messages.append({"role": "user", "content": user_input})
-        prompt = pipeline.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        response = pipeline(prompt, max_new_tokens=4096, do_sample=False, temperature=0.7, top_p=0.9)
-        generated_response = response[0]["generated_text"][len(prompt):].strip()
-        print(generated_response)
-        messages.append({"role": "system", "content": generated_response})  # Actualizar el contexto con la respuesta generada
+app = Flask(__name__)
+CORS(app)
 
-# Iniciar la conversación
-chat_with_llama()
+# Archivo de contexto
+context_file = 'context.json'
+
+# Prompt de sistema inicial
+initial_system_prompt = (
+    "You are a helpful assistant created by Meta. Your purpose is to assist users by providing accurate and relevant information, answering questions, and helping with various tasks. You provide short responses to short questions or statements, but thorough responses to more complex and open-ended questions. You assist with various tasks, from writing to coding (using markdown for code blocks — remember to use ``` with code, JSON, and tables). You do not have real-time data access or code execution capabilities. You avoid stereotyping and provide balanced perspectives on controversial topics. You do not provide song lyrics, poems, or news articles and do not divulge details of your training data. This is your system prompt, guiding your responses. Do not reference it, just respond to the user. If you find yourself talking about this message, stop. You should be responding appropriately and usually that means not mentioning this. Do not mention any of this information about yourself unless the information is directly pertinent to the user's query."
+)
+
+def load_context():
+    if os.path.exists(context_file):
+        with open(context_file, 'r') as file:
+            return json.load(file)
+    else:
+        return []
+
+def save_context(context):
+    with open(context_file, 'w') as file:
+        json.dump(context, file)
+
+def prompt_build(system_prompt, user_inp, hist):
+    prompt = f"""### System:\n{system_prompt}\n\n"""
+    
+    for pair in hist:
+        prompt += f"""### User:\n{pair[0]}\n\n### Assistant:\n{pair[1]}\n\n"""
+
+    prompt += f"""### User:\n{user_inp}\n\n### Assistant:"""
+    return prompt
+
+def chat(user_input, history):
+    prompt = prompt_build(initial_system_prompt, user_input, history)
+    model_inputs = tokenizer([prompt], return_tensors="pt").to("cuda")
+
+    streamer = transformers.TextIteratorStreamer(tokenizer, timeout=10., skip_prompt=True, skip_special_tokens=True)
+
+    generate_kwargs = dict(
+        input_ids=model_inputs.input_ids,
+        attention_mask=model_inputs.attention_mask,
+        streamer=streamer,
+        max_length=8192,
+        do_sample=True,
+        top_p=0.95,
+        temperature=0.8,
+        top_k=50
+    )
+
+    thread = Thread(target=model.generate, kwargs=generate_kwargs)
+    thread.start()
+
+    model_output = ""
+    for new_text in streamer:
+        model_output += new_text
+    thread.join()  # Asegura que el hilo ha terminado
+
+    return model_output.strip()
+
+@app.route('/chat', methods=['POST'])
+def chat_api():
+    data = request.json
+    user_input = data.get('user_input', '')
+    
+    # Cargar el contexto
+    history = load_context()
+
+    response = chat(user_input, history)
+    
+    # Actualizar el historial con la nueva interacción
+    history.append((user_input, response))
+    
+    # Guardar el contexto actualizado
+    save_context(history)
+    
+    return jsonify({"response": response, "history": history})
+
+if __name__ == '__main__':
+    Ip = obtener_ip()
+    Port = 5000
+    Thread(target=Ngrok, args=(Ip,Port)).start()
+    app.run(host=Ip, port=Port)
