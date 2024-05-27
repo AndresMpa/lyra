@@ -92,7 +92,7 @@
       </article>
     </aside>
 
-    <div class="app">
+    <div class="app" id="app">
       <div class="app-info">
         <section class="logo">
           <figure class="logo-box">
@@ -181,36 +181,23 @@
       </div>
     </div>
 
-    <main>
-      <section class="message-box none">
-        <article class="lyra-message">
-          <p class="lyra-message-content">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-            repellendus blanditiis officiis! Blanditiis porro cum possimus
-            distinctio. Iste quos quis repellat, architecto suscipit soluta
-            officia illum quidem omnis quod. Vitae.
-          </p>
-        </article>
-        <article class="user-message">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-            repellendus blanditiis officiis! Blanditiis porro cum possimus
-            distinctio. Iste quos quis repellat, architecto suscipit soluta
-            officia illum quidem omnis quod. Vitae.
-          </p>
-        </article>
-      </section>
+    <main class="active-chat none" id="activeChat">
+      <section class="message-box none" id="messageBox"></section>
     </main>
 
     <section class="prompt">
       <article class="prompt-container">
-        <input
-          class="prompt-chat"
-          type="text"
-          name="prompt"
-          placeholder="Your Cosmic Companion"
-        />
-        <button class="prompt-button">
+        <p class="prompt-chat">
+          <span
+            role="textbox"
+            class="prompt-chat-box"
+            name="prompt-chat"
+            id="promptChat"
+            contenteditable
+            tabindex="0"
+          ></span>
+        </p>
+        <button class="prompt-button" id="promptButton">
           <img
             src="./assets/figures/send.svg"
             class="big-icon"
@@ -227,5 +214,6 @@
         </p>
       </footer>
     </section>
+    <script src="./eventHandlers/main.js" type="module"></script>
   </body>
 </html>

@@ -16,19 +16,39 @@
 }
 
 .prompt-chat {
-  background-color: var(--background-3);
-  border-radius: 5px;
-  border: none;
-
-  color: var(--decoration-2);
-  font-weight: 900;
+  width: 95vw;
+  min-height: 34px;
 
   padding-left: 8px;
   margin: 6px auto;
 
-  width: 95vw;
-  height: auto;
-  min-height: 34px;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--decoration-2);
+
+  border: none;
+  border-radius: 5px;
+  background-color: var(--background-3);
+
+  cursor: text;
+  overflow: hidden;
+}
+
+.prompt-chat-box {
+  display: flex;
+  padding: 10px 8px 10px 0;
+
+  word-break: break-word;
+  color: var(--decoration-2);
+}
+
+.prompt-chat-box[contenteditable]:empty::before {
+  content: "Your Cosmic Companion";
+  display: flex;
+
+  opacity: 0.6;
+  font-size: 12px;
+  color: var(--decoration-2);
 }
 
 .prompt-button {
