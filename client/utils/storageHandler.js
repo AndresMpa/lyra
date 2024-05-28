@@ -33,7 +33,9 @@ const getItemFromStorage = (key) => JSON.parse(localStorage.getItem(key));
  */
 const deleteArrayItemFromStorage = (key, target) => {
   const chats = JSON.parse(localStorage.getItem(key));
-  chats.filter((item, index) => index !== target);
+  chats.splice(target, 1);
+
+  localStorage.setItem(key, JSON.stringify(chats));
 };
 
 export {
