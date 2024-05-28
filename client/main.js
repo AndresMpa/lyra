@@ -17,6 +17,7 @@ function createWindow() {
   });
 
   win.loadFile("index.html");
+
   win.webContents.on("will-navigate", (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
