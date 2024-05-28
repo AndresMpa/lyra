@@ -69,10 +69,12 @@ export const handlePrompt = async () => {
   messageBox.scrollTop = messageBox.scrollHeight;
   promptChat.replaceChildren();
 
-  const lyrasAnswer = await askLyra(rawContent);
+  const lyrasAnswer = "hi"; //await askLyra(rawContent);
   saveArrayToStorage("chats", currentChat, { type: "lyra", data: lyrasAnswer });
 
   messageBox.append(createMessage(lyrasAnswer, "lyra"));
   messageBox.scrollTop = messageBox.scrollHeight;
   promptChat.replaceChildren();
 };
+
+export { trimBr, createMessage };
