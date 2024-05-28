@@ -16,7 +16,7 @@
 }
 
 .prompt-chat {
-  width: 95vw;
+  width: 92vw;
   min-height: 34px;
 
   padding-left: 8px;
@@ -62,7 +62,19 @@
   background-color: var(--background-3);
 }
 
-@media screen and (max-width: 700px) {
+@media only screen and (max-width: 362px) {
+  .prompt-chat {
+    width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 362px) and (max-width: 576px) {
+  .prompt-chat {
+    width: 85vw;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 712px) {
   .prompt-chat {
     width: 90vw;
   }

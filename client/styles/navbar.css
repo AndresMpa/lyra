@@ -43,5 +43,6 @@
 
 .disabled-controls-button {
   opacity: 0.5;
+  pointer-events: none;
   background-color: var(--decoration-2);
 }
