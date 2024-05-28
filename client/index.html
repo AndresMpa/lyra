@@ -11,22 +11,56 @@
   </head>
   <body>
     <nav class="navbar">
-      <button class="navbar-button">
-        <img
-          src="./assets/figures/add.svg"
-          title="Add conversation"
-          class="big-icon"
-          alt="Add icon"
-        />
-      </button>
-      <button class="navbar-button">
-        <img
-          src="./assets/figures/menu.svg"
-          title="Open menu"
-          class="big-icon"
-          alt="Menu icon"
-        />
-      </button>
+      <div class="navbar-container">
+        <button class="navbar-button" id="addChat">
+          <img
+            src="./assets/figures/add.svg"
+            title="Add conversation"
+            class="big-icon"
+            alt="Add icon"
+          />
+        </button>
+
+        <div class="navbar-container-controls" id="activeTabs">
+          <button class="controls-button" id="prevChat">
+            <img
+              src="./assets/figures/left.svg"
+              title="Previous conversation"
+              alt="Previous icon"
+              class="big-icon"
+            />
+          </button>
+          <button class="controls-button">1</button>
+          <button class="controls-button">2</button>
+          <button class="controls-button">3</button>
+          <button class="controls-button" id="nextChat">
+            <img
+              src="./assets/figures/right.svg"
+              title="Next conversation"
+              class="big-icon"
+              alt="Next icon"
+            />
+          </button>
+        </div>
+      </div>
+      <div class="navbar-container-controls">
+        <button class="controls-button" id="deleteChat">
+          <img
+            src="./assets/figures/trash.svg"
+            title="Delete conversation"
+            alt="Delete icon"
+            class="big-icon"
+          />
+        </button>
+        <button class="navbar-button" id="menuButton">
+          <img
+            src="./assets/figures/menu.svg"
+            title="Open menu"
+            class="big-icon"
+            alt="Menu icon"
+          />
+        </button>
+      </div>
     </nav>
 
     <aside class="menu none" id="menu">
