@@ -21,8 +21,11 @@
           />
         </button>
 
-        <div class="navbar-container-controls" id="activeTabs">
-          <button class="controls-button" id="prevChat">
+        <div class="navbar-container-controls none" id="activeTabs">
+          <button
+            class="controls-button disabled-controls-button"
+            id="prevChat"
+          >
             <img
               src="./assets/figures/left.svg"
               title="Previous conversation"
@@ -30,10 +33,25 @@
               class="big-icon"
             />
           </button>
-          <button class="controls-button">1</button>
-          <button class="controls-button">2</button>
-          <button class="controls-button">3</button>
-          <button class="controls-button" id="nextChat">
+          <button
+            class="controls-button none"
+            id="controlButton1"
+            data-value="-1"
+          ></button>
+          <button
+            class="controls-button none"
+            id="controlButton2"
+            data-value="0"
+          ></button>
+          <button
+            class="controls-button none"
+            id="controlButton3"
+            data-value="1"
+          ></button>
+          <button
+            class="controls-button disabled-controls-button"
+            id="nextChat"
+          >
             <img
               src="./assets/figures/right.svg"
               title="Next conversation"
