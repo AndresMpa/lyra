@@ -1,15 +1,54 @@
 import {
   saveItemToStorage,
   getItemFromStorage,
+  deleteArrayItemFromStorage,
 } from "../utils/storageHandler.js";
+import { createMessage, trimBr } from "./prompt.js";
+import { invokeDashboard, invokeChat } from "./chat.js";
 
+const controlButtons = [
+  document.querySelector("#controlButton1"),
+  document.querySelector("#controlButton2"),
+  document.querySelector("#controlButton3"),
+];
+
+const activeTabs = document.querySelector("#activeTabs");
 const prevChat = document.querySelector("#prevChat");
 const nextChat = document.querySelector("#nextChat");
 const menu = document.querySelector("#menu");
 
-const messageBox = document.querySelector("#messageBox");
-const activeChat = document.querySelector("#activeChat");
-const app = document.querySelector("#app");
+const loadChat = (chatIndex) => {
+  invokeChat();
+
+  const promptChat = document.querySelector("#promptChat");
+  const messageBox = document.querySelector("#messageBox");
+  messageBox.replaceChildren();
+
+  const listOfChats = getItemFromStorage("chats");
+
+  let rawContent;
+  listOfChats[chatIndex].forEach((item) => {
+    rawContent = trimBr(item.data);
+    messageBox.append(createMessage(rawContent, item.type));
+    messageBox.scrollTop = messageBox.scrollHeight;
+    promptChat.replaceChildren();
+  });
+};
+
+const updateButtons = (change) => {
+  let calculus;
+  controlButtons.forEach((item) => {
+    calculus = parseInt(item.dataset.value) + change;
+    item.dataset.value = calculus;
+    item.textContent = calculus;
+    item.classList.toggle("none", calculus <= 0);
+  });
+};
+
+const checkLimits = (current, limit) => {
+  nextChat.classList.toggle("disabled-controls-button", current >= limit - 1);
+  prevChat.classList.toggle("disabled-controls-button", current <= 0);
+};
 
 const addChatHandler = () => {
   const currentChat = getItemFromStorage("currentChat");
@@ -20,43 +59,65 @@ const addChatHandler = () => {
     saveItemToStorage("currentChat", currentChat + 1);
     saveItemToStorage("chats", listOfChats);
 
-    app.classList.remove("none");
-    app.classList.add("moveDownFadeIn");
+    invokeDashboard();
 
-    activeChat.classList.remove("active-chat");
-    messageBox.classList.add("none");
+    activeTabs.classList.remove("none");
 
-    messageBox.replaceChildren();
+    updateButtons(1);
+    checkLimits(currentChat + 1, getItemFromStorage("chats").length);
   }
 };
 
 const prevChatHandler = () => {
-  const amountOfChat = getItemFromStorage("chats").lenght;
   const currentChat = getItemFromStorage("currentChat");
 
-  if (currentChat - 1 > amountOfChat) {
+  if (currentChat - 1 > -1) {
     saveItemToStorage("currentChat", currentChat - 1);
-  }
+    checkLimits(currentChat - 1, getItemFromStorage("chats").length);
+    updateButtons(-1);
 
-  if (currentChat - 1 <= amountOfChat) {
-    nextChat.classList.remove("disabled-controls-button");
-    prevChat.classList.add("disabled-controls-button");
+    loadChat(currentChat - 1);
   }
 };
+
 const nextChatHandler = () => {
-  const amountOfChat = getItemFromStorage("chats").lenght;
   const currentChat = getItemFromStorage("currentChat");
 
-  if (currentChat + 1 < amountOfChat) {
+  if (currentChat + 1 < getItemFromStorage("chats").length) {
     saveItemToStorage("currentChat", currentChat + 1);
+    checkLimits(currentChat + 1, getItemFromStorage("chats").length);
+    updateButtons(1);
+
+    loadChat(currentChat + 1);
+  }
+};
+
+const deleteChatHandler = () => {
+  const currentChat = getItemFromStorage("currentChat");
+  deleteArrayItemFromStorage("chats", currentChat);
+
+  const amountOfChat = getItemFromStorage("chats").length;
+  saveItemToStorage("currentChat", amountOfChat);
+
+  if (getItemFromStorage("chats").length === 0) {
+    saveItemToStorage("chats", [[]]);
+
+    activeTabs.classList.add("none");
   }
 
-  if (currentChat + 1 >= amountOfChat) {
-    prevChat.classList.remove("disabled-controls-button");
-    nextChat.classList.add("disabled-controls-button");
-  }
+  saveItemToStorage("currentChat", currentChat - 1);
+  checkLimits(currentChat - 1, getItemFromStorage("chats").length);
+  updateButtons(-1);
+
+  loadChat(currentChat - 1);
 };
 
 const menuHandler = (target) => menu.classList.toggle("none");
 
-export { addChatHandler, prevChatHandler, nextChatHandler, menuHandler };
+export {
+  menuHandler,
+  addChatHandler,
+  prevChatHandler,
+  nextChatHandler,
+  deleteChatHandler,
+};
