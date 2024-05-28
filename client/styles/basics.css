@@ -37,7 +37,6 @@ a {
   color: var(--links);
 }
 
-
 .icon {
   width: 12px;
 }
@@ -64,6 +63,11 @@ a {
 
 .moveUpFadeOut {
   animation: moveUpFadeOut 0.5s ease forwards;
+}
+
+.moveDownFadeIn {
+  animation-direction: reverse;
+  animation: moveUpFadeOut 0.5s ease reverse;
 }
 
 @keyframes moveUpFadeOut {

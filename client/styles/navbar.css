@@ -10,6 +10,10 @@
   z-index: 1;
 }
 
+.navbar-container {
+  display: flex;
+}
+
 .navbar-button {
   background-color: var(--background-3);
   border-radius: 5px;
@@ -18,4 +22,26 @@
   width: 32px;
 
   margin: 8px 20px;
+}
+
+.navbar-container-controls {
+  display: flex;
+  max-width: 210px;
+}
+
+.controls-button {
+  border-radius: 5px;
+  border: none;
+
+  height: 28px;
+  width: 28px;
+
+  margin: 10px 5px;
+
+  background-color: var(--decoration-3);
+}
+
+.disabled-controls-button {
+  opacity: 0.5;
+  background-color: var(--decoration-2);
 }
