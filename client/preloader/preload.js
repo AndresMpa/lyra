@@ -1,5 +1,13 @@
+const { contextBridge, ipcRenderer } = require("electron");
 const axios = require("axios");
-require("dotenv").config();
+
+const config = require("../utils/config");
+
+contextBridge.exposeInMainWorld("electron", {
+  getCPUUsage: () => ipcRenderer.invoke("get-cpu-usage"),
+  getDiskUsage: () => ipcRenderer.invoke("get-disk-usage"),
+  getRAMUsage: () => ipcRenderer.invoke("get-ram-usage"),
+});
 
 const attachContextData = () => {
   const replaceText = (selector, text) => {
@@ -13,10 +21,7 @@ const attachContextData = () => {
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const baseUrl = process.env.LYRA_URL;
-
-  const lyraUrl = baseUrl;
-  const response = await axios.get(lyraUrl);
+  const response = await axios.get(config.lyraUrl);
   window.lyraBaseUrl = response.data;
 
   attachContextData();

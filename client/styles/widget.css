@@ -1,21 +1,12 @@
 .widget {
-  gap: 20px;
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
 
   padding: 20px 50px;
   margin: auto;
 }
 
 .widget-container {
-  gap: 0px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  width: 30vw;
-  height: 15vh;
-
+  max-width: 30vw;
   margin: 5px auto;
   padding: 10px 15px;
 
@@ -23,8 +14,6 @@
 
   border-radius: 5px;
   box-sizing: border-box;
-  border: 1px solid var(--decoration-alt-2);
-  background-color: var(--background-2);
 }
 
 .widget-container:hover {
@@ -32,22 +21,50 @@
 }
 
 .widget-container-title {
+  position: relative;
+}
+
+.metric-title {
+  transform: translate(-10px, -30px);
+  position: absolute;
+
+  padding: 2px;
+
   font-weight: 500;
   font-size: 1em;
+
+  border-radius: 5px;
+  background-color: var(--background-2);
+  border: 1px solid var(--decoration-alt-2);
 }
 
-.widget-container-data {
-  margin: 8px;
-  font-weight: 300;
-  font-size: 0.8em;
+.metric-plot {
+  width: 70px;
+  height: 70px;
 }
 
-.widget-container-item {
-  margin: 5px 0px;
-}
+@media only screen and (max-width: 362px) {
+  .widget {
+    gap: 20px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "pl1 pl3"
+      "pl2 pl2";
+  }
 
-.widget-container-percentage {
-  width: 100%;
-  height: 85%;
-  background-color: var(--decoration-1);
+  .widget-container:nth-child(1) {
+    grid-area: pl1;
+  }
+
+  .widget-container:nth-child(2) {
+    grid-area: pl2;
+  }
+
+  .widget-container:nth-child(3) {
+    grid-area: pl3;
+    justify-self: center;
+  }
 }
