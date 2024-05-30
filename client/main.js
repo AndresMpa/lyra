@@ -1,4 +1,11 @@
-const { app, shell, screen, ipcMain, BrowserWindow } = require("electron/main");
+const {
+  app,
+  shell,
+  screen,
+  ipcMain,
+  BrowserWindow,
+  Menu,
+} = require("electron/main");
 const path = require("node:path");
 
 const { getRAMUsage } = require("./OS/RAM");
@@ -22,6 +29,10 @@ function createWindow() {
     },
     icon: path.join(__dirname, "assets/app/logo.png"),
   });
+
+  if (process.env.NODE_ENV === "development") {
+    Menu.setApplicationMenu(null);
+  }
 
   win.loadFile("index.html");
 
