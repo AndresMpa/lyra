@@ -21,8 +21,13 @@ const attachContextData = () => {
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const response = await axios.get(config.lyraUrl);
-  window.lyraBaseUrl = response.data;
+  if (config.nodeEnv === "development") {
+    const response = await axios.get(config.lyraUrl);
+    window.lyraBaseUrl = response.data;
+  } else {
+    const baseUrl = `${config.host}:${config.apiPort}`;
+    window.lyraBaseUrl = baseUrl;
+  }
 
   attachContextData();
 });
