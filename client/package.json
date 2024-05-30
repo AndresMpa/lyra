@@ -15,10 +15,23 @@
       "buildResources": "assets"
     },
     "files": [
-      "main.js",
+      "assets/**/*",
+      "config/**/*",
+      "eventHandlers/**/*",
       "index.html",
-      "package.json",
-      "assets/"
+      "main.js",
+      "OS/**/*",
+      "preloader/**/*",
+      "styles/**/*",
+      "templates/**/*",
+      "utils/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/fonts",
+        "to": "fonts",
+        "filter": "**/*"
+      }
     ],
     "linux": {
       "target": [
@@ -27,7 +40,7 @@
         "tar.gz"
       ],
       "category": "Utility",
-      "icon": "./assets/app/256x256.png"
+      "icon": "assets/app/256x256.png"
     }
   },
   "keywords": [
