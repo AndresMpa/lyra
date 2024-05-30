@@ -4,6 +4,7 @@ import webbrowser
 from threading import Thread
 from LlamadosExternos.FireBase import FIREBASE
 import json
+import re
 
 from config.env_vars import env_vars
 
@@ -52,3 +53,9 @@ def obtener_ip():
     except Exception as e:
         print("Error al obtener la dirección IP:", e)
         return None
+    
+def clean_response_json(response_json):
+
+    data = response_json.replace('<|system|>\n</s>\n<|user|>\n</s>\n<|assistant|>\n', '')
+    
+    return data
