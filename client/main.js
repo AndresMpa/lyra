@@ -32,7 +32,7 @@ function createWindow() {
     icon: path.join(__dirname, "assets/app/logo.png"),
   });
 
-  if (config.nodeEnv === "development") {
+  if (config.nodeEnv === "production") {
     Menu.setApplicationMenu(null);
   }
 

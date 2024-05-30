@@ -27,4 +27,4 @@ const loadConfig = () => {
   }
 };
 
-module.exports = { config: loadConfig() };
+module.exports = loadConfig();

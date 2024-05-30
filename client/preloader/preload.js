@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const axios = require("axios");
 
-const config = require("./utils/config");
+const config = require("../utils/config");
 
 contextBridge.exposeInMainWorld("electron", {
   getCPUUsage: () => ipcRenderer.invoke("get-cpu-usage"),
