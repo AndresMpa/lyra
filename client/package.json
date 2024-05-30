@@ -2,7 +2,17 @@
   "name": "lyra",
   "version": "1.0.0",
   "description": "A virtual assistant for GNU/Linux",
-  "main": "index.js",
+  "repository": "https://github.com/AndresMpa/lyra",
+  "homepage": "https://github.com/AndresMpa/lyra",
+  "author": "AndresMpa <ing.andres.m.prieto@gmail.com>, xcerock <xcerock@gmail.com>",
+  "license": "MIT",
+  "main": "main.js",
+  "keywords": [
+    "IA",
+    "Virtual",
+    "Assistant",
+    "GNU/Linux"
+  ],
   "scripts": {
     "start": "electron ./main.js",
     "build": "electron-builder"
@@ -44,14 +54,6 @@
       "icon": "assets/app/256x256.png"
     }
   },
-  "keywords": [
-    "IA",
-    "Virtual",
-    "Assistant",
-    "GNU/Linux"
-  ],
-  "author": "AndresMpa, xcerock",
-  "license": "MIT",
   "dependencies": {
     "axios": "^1.7.2"
   },
