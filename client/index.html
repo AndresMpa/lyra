@@ -5,9 +5,10 @@
     <title>Lyra</title>
     <meta
       http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline';"
+      content="script-src 'self' https://cdn.jsdelivr.net;"
     />
     <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <nav class="navbar">
@@ -163,8 +164,8 @@
 
         <section class="widget">
           <article class="widget-container">
-            <div>
-              <h2 class="widget-container-title">
+            <div class="widget-container-title">
+              <h2 class="metric-title">
                 <img
                   src="./assets/figures/cpu.svg"
                   alt="CPU icon"
@@ -172,16 +173,12 @@
                 />
                 CPU
               </h2>
-              <ul class="widget-container-data">
-                <li id="usedCpu" class="widget-container-item">Used:</li>
-                <li id="freeCpu" class="widget-container-item">Free:</li>
-              </ul>
             </div>
-            <canvas class="widget-container-percentage"></canvas>
+            <canvas class="metric-plot" id="cpuDrawer"></canvas>
           </article>
           <article class="widget-container">
-            <div>
-              <h2 class="widget-container-title">
+            <div class="widget-container-title">
+              <h2 class="metric-title">
                 <img
                   src="./assets/figures/ram.svg"
                   alt="RAM icon"
@@ -189,16 +186,12 @@
                 />
                 RAM
               </h2>
-              <ul class="widget-container-data">
-                <li id="usedRam" class="widget-container-item">Used:</li>
-                <li id="freeRam" class="widget-container-item">Free:</li>
-              </ul>
             </div>
-            <canvas class="widget-container-percentage"></canvas>
+            <canvas class="metric-plot" id="ramDrawer"></canvas>
           </article>
           <article class="widget-container">
-            <div>
-              <h2 class="widget-container-title">
+            <div class="widget-container-title">
+              <h2 class="metric-title">
                 <img
                   src="./assets/figures/disk.svg"
                   alt="Disk icon"
@@ -206,16 +199,12 @@
                 />
                 Disk
               </h2>
-              <ul class="widget-container-data">
-                <li id="usedDisk" class="widget-container-item">Used:</li>
-                <li id="freeDisk" class="widget-container-item">Free:</li>
-              </ul>
             </div>
-            <canvas class="widget-container-percentage"></canvas>
+            <canvas class="metric-plot" id="diskDrawer"></canvas>
           </article>
           <article class="widget-container">
-            <div>
-              <h2 class="widget-container-title">
+            <div class="widget-container-title">
+              <h2 class="metric-title">
                 <img
                   src="./assets/figures/pckg.svg"
                   alt="Disk icon"
@@ -223,11 +212,8 @@
                 />
                 Pckg
               </h2>
-              <ul class="widget-container-data">
-                <li id="amountPkg" class="widget-container-item">Used:</li>
-              </ul>
             </div>
-            <canvas class="widget-container-percentage"></canvas>
+            <canvas class="metric-plot" id="pckgDrawer"></canvas>
           </article>
         </section>
       </div>
