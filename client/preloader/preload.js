@@ -1,5 +1,12 @@
+const { contextBridge, ipcRenderer } = require("electron");
 const axios = require("axios");
 require("dotenv").config();
+
+contextBridge.exposeInMainWorld("electron", {
+  getCPUUsage: () => ipcRenderer.invoke("get-cpu-usage"),
+  getDiskUsage: () => ipcRenderer.invoke("get-disk-usage"),
+  getRAMUsage: () => ipcRenderer.invoke("get-ram-usage"),
+});
 
 const attachContextData = () => {
   const replaceText = (selector, text) => {
