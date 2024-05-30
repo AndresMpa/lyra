@@ -11,7 +11,7 @@
     "appId": "lyra",
     "productName": "Lyra: Your Cosmic Companion",
     "directories": {
-      "output": "dist",
+      "output": "../dist",
       "buildResources": "assets"
     },
     "files": [
@@ -24,12 +24,13 @@
       "preloader/**/*",
       "styles/**/*",
       "templates/**/*",
-      "utils/**/*"
+      "utils/**/*",
+      "../backend/**/*"
     ],
     "extraResources": [
       {
-        "from": "assets/fonts",
-        "to": "fonts",
+        "from": "../backend",
+        "to": "backend",
         "filter": "**/*"
       }
     ],
