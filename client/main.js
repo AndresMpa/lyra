@@ -8,6 +8,8 @@ const {
 } = require("electron/main");
 const path = require("node:path");
 
+const config = require("./utils/config");
+
 const { getRAMUsage } = require("./OS/RAM");
 const { getCPUUsage } = require("./OS/CPU");
 const { getDiskUsage } = require("./OS/Disk");
@@ -30,7 +32,7 @@ function createWindow() {
     icon: path.join(__dirname, "assets/app/logo.png"),
   });
 
-  if (process.env.NODE_ENV === "development") {
+  if (config.nodeEnv === "development") {
     Menu.setApplicationMenu(null);
   }
 
