@@ -19,12 +19,10 @@
   padding: 0%;
   color: var(--letter);
   overflow-anchor: none;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", "Nunito", "Montserrat", sans-serif;
 }
 
 body {
-  height: 100vh;
-  min-height: 100vh;
   background-color: var(--background-1);
 }
 
@@ -37,6 +35,66 @@ li {
 a {
   text-decoration: none;
   color: var(--links);
+}
+
+.icon {
+  width: 12px;
+}
+
+.big-icon {
+  width: 24px;
+}
+
+.decoration {
+  border: 1px solid var(--decoration-1);
+}
+
+.active-chat {
+  margin-top: 10vh;
+  height: 80vh;
+}
+
+.app {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moveUpFadeOut {
+  animation: moveUpFadeOut 0.5s ease forwards;
+}
+
+.moveDownFadeIn {
+  animation-direction: reverse;
+  animation: moveUpFadeOut 0.5s ease reverse;
+}
+
+@keyframes moveUpFadeOut {
+  0% {
+    opacity: 1;
+    height: 90vh;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    height: 60vh;
+  }
+}
+@keyframes moveUpFadeOut {
+  0% {
+    opacity: 1;
+    height: 90vh;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    height: 60vh;
+  }
 }
 
 :focus {

@@ -1,7 +1,17 @@
 .navbar {
+  top: 0;
+  left: 0;
+  position: fixed;
   display: flex;
+  width: 100%;
+
   justify-content: space-between;
-  background-color: var(--background-2)
+  background-color: var(--background-2);
+  z-index: 1;
+}
+
+.navbar-container {
+  display: flex;
 }
 
 .navbar-button {
@@ -12,4 +22,27 @@
   width: 32px;
 
   margin: 8px 20px;
+}
+
+.navbar-container-controls {
+  display: flex;
+  max-width: 210px;
+}
+
+.controls-button {
+  border-radius: 5px;
+  border: none;
+
+  height: 28px;
+  width: 28px;
+
+  margin: 10px 5px;
+
+  background-color: var(--decoration-3);
+}
+
+.disabled-controls-button {
+  opacity: 0.5;
+  pointer-events: none;
+  background-color: var(--decoration-2);
 }

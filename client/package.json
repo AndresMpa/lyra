@@ -16,6 +16,8 @@
   "author": "AndresMpa, xcerock",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "electron": "^30.0.2",
     "electron-chartjs": "^1.0.0"
   },

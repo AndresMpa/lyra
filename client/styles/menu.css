@@ -1,0 +1,113 @@
+.menu {
+  display: block;
+  position: relative;
+}
+
+.menu-container {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-20%, 20%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  width: 60vw;
+  height: 40vh;
+
+  padding: 2vh 0px 4vh;
+  color: var(--letter);
+
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: var(--background-2);
+  border: 1px solid var(--decoration-alt-2);
+
+  z-index: 1;
+}
+
+.menu-container-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  vertical-align: middle;
+}
+
+.menu-container-caption {
+  display: flex;
+  align-items: center;
+
+  margin: auto 5px;
+}
+
+.telemetry-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.telemetry-caption {
+  text-align: center;
+  color: var(--link);
+
+  margin-bottom: 20px;
+}
+
+.telemetry-switch {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 150px;
+  height: 25px;
+  padding: 5px;
+
+  border-radius: 25px;
+  box-sizing: border-box;
+  background-color: var(--decoration-3);
+}
+
+.telemetry-switch-radio {
+  display: none;
+}
+
+.telemetry-switch label {
+  width: 50%;
+
+  text-align: center;
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+.telemetry-slider {
+  width: 50%;
+  height: 90%;
+  position: absolute;
+
+  transition: 0.3s;
+  border-radius: 25px;
+  background-color: var(--decoration-alt-1);
+
+  z-index: 2;
+}
+
+input[type="radio"]#telemetry-on:checked ~ .telemetry-slider {
+  left: 0px;
+}
+
+input[type="radio"]#telemetry-off:checked ~ .telemetry-slider {
+  left: 50%;
+}
+
+.telemetry-switch label[for="telemetry-on"] {
+  left: 5px;
+}
+
+.telemetry-switch label[for="telemetry-off"] {
+  right: 5px;
+}
