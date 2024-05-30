@@ -7,6 +7,7 @@ const {
   Menu,
 } = require("electron/main");
 const path = require("node:path");
+const { spawn } = require("child_process");
 
 const config = require("./utils/config");
 
@@ -36,6 +37,10 @@ function createWindow() {
     Menu.setApplicationMenu(null);
   }
 
+  if (config.nodeEnv === "development") {
+    win.webContents.openDevTools();
+  }
+
   win.loadFile("index.html");
 
   win.webContents.on("will-navigate", (event, url) => {
@@ -49,6 +54,17 @@ function createWindow() {
   });
 }
 
+const pythonServer = spawn("python", [
+  "-u",
+  path.join(__dirname, "..", "backend", "server.py"),
+]);
+
+pythonServer.stdout.on("data", (data) => console.log(`stdout: ${data}`));
+pythonServer.stderr.on("data", (data) => console.error(`stderr: ${data}`));
+pythonServer.on("close", (code) =>
+  console.log(`Python server exited with code ${code}`),
+);
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -58,6 +74,8 @@ app.whenReady().then(() => {
     }
   });
 });
+
+app.on("before-quit", () => pythonServer.kill());
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
