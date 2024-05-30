@@ -56,7 +56,7 @@ function createWindow() {
 
 const pythonServer = spawn("python", [
   "-u",
-  path.join(__dirname, "..", "backend", "server.py"),
+  path.join(__dirname, "..", "backend", "app.py"),
 ]);
 
 pythonServer.stdout.on("data", (data) => console.log(`stdout: ${data}`));
