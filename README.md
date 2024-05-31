@@ -72,5 +72,6 @@ Download the lyra.VERSION.tar.gz package file from this repository at [lyra.1.0.
 ```sh
 tar -xvzf lyra.tar.gz
 cd lyra
-sudo ./install.sh
+chmod +x install.sh
+./install.sh
 ```
