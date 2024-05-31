@@ -26,9 +26,26 @@ Lyra acts as a guiding star, providing intuitive assistance and streamlining com
 
 ### Installation and Setup
 
-Lyra can be installed using packages available for various Linux package managers. Below are the steps to install Lyra on your system:
+##### Setup
+
+To setup the project as and user you can simple copy-paste the following json file at `.config/lyra/config.json`
+
+```json
+{
+  "nodeEnv": "production",
+  "lyraUrl": "",
+  "firebase": "",
+  "ngrokPort": 4040,
+  "host": "http://127.0.0.1",
+  "apiPort": 5000,
+  "mode": 1,
+  "verbose": 0
+}
+```
 
 ##### Installation
+
+Lyra can be installed using packages available for various Linux package managers. Below are the steps to install Lyra on your system:
 
 > Note: Each VERSION is labeled as X.Z.Y-state X meaning major version, Z meaning minor version and Y as patch; -state means state of the build if there's no a -state for example 1.0.0 it means latest
 
