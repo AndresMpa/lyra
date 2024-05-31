@@ -99,17 +99,19 @@ const deleteChatHandler = () => {
   const amountOfChat = getItemFromStorage("chats").length;
   saveItemToStorage("currentChat", amountOfChat);
 
-  if (getItemFromStorage("chats").length === 0) {
+  if (getItemFromStorage("chats").length <= 0) {
     saveItemToStorage("chats", [[]]);
 
     activeTabs.classList.add("none");
   }
 
-  saveItemToStorage("currentChat", currentChat - 1);
-  checkLimits(currentChat - 1, getItemFromStorage("chats").length);
-  updateButtons(-1);
+  if (currentChat - 1 >= 0) {
+    saveItemToStorage("currentChat", currentChat - 1);
+    checkLimits(currentChat - 1, getItemFromStorage("chats").length);
+    updateButtons(-1);
 
-  loadChat(currentChat - 1);
+    loadChat(currentChat - 1);
+  }
 };
 
 const menuHandler = (target) => menu.classList.toggle("none");
