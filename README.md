@@ -30,9 +30,11 @@ Lyra can be installed using packages available for various Linux package manager
 
 ##### Installation
 
+> Note: Each VERSION is labeled as X.Z.Y-state X meaning major version, Z meaning minor version and Y as patch; -state means state of the build if there's no a -state for example 1.0.0 it means latest
+
 ###### For Arch Linux (Or derivates) - Using pacman
 
-Download the lyra.VERSION.pacman package file from this repository at [./package/lyra.1.0.0.pacman](./package/lyra.1.0.0.pacman)
+Download the lyra.VERSION.pacman package file from this repository at [lyra.1.0.0-beta.pacman](https://github.com/AndresMpa/lyra/releases/download/beta/lyra-1.0.0-beta.pacman)
 
 ```sh
 sudo pacman -U lyra.pacman
@@ -40,7 +42,7 @@ sudo pacman -U lyra.pacman
 
 ###### For Ubuntu (Or derivates) - Using dpkg
 
-Download the lyra.VERSION.deb package file from this repository at [./package/lyra.1.0.0.deb](./package/lyra.1.0.0.deb)
+Download the lyra.VERSION.deb package file from this repository at [lyra.1.0.0-beta_amd64.deb](https://github.com/AndresMpa/lyra/releases/download/beta/lyra_1.0.0-beta_amd64.deb)
 
 ```sh
 sudo dpkg -i lyra.deb
@@ -48,7 +50,7 @@ sudo dpkg -i lyra.deb
 
 ###### Generic solution for GNU/Linux systems - Using tar.gz
 
-Download the lyra.VERSION.tar.gz package file from this repository at [./package/lyra.1.0.0.tar.gz](./package/lyra.1.0.0.tar.gz)
+Download the lyra.VERSION.tar.gz package file from this repository at [lyra.1.0.0-beta.tar.gz](https://github.com/AndresMpa/lyra/releases/download/beta/lyra-1.0.0-beta.tar.gz)
 
 ```sh
 tar -xvzf lyra.tar.gz
