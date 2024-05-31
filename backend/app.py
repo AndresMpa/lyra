@@ -1,40 +1,21 @@
 from flask import Flask, request, jsonify
-import transformers
-from torch import bfloat16
+from transformers import pipeline
 from threading import Thread
+import torch
 import json
-from Secundarias import obtener_ip, Ngrok
-from threading import Thread
-from flask import Flask,request,redirect
-from ujson import dumps as  jsonify
+from Secundarias import obtener_ip, Ngrok, clean_response_json
 from flask_cors import CORS
 import os
 from config.env_vars import env_vars
 
+
 # Configuración del modelo
-model_id = "meta-llama/Meta-Llama-3-8B-Instruct"  # El modelo
+model_id = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
-bnb_config = transformers.BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type='nf4',
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_compute_dtype=bfloat16
-)
-model_config = transformers.AutoConfig.from_pretrained(
-    model_id,
-)
+device = "cuda" if torch.cuda.is_available() else "cpu"
+torch_dtype = torch.bfloat16 if device == "cuda" else torch.float32
 
-model = transformers.AutoModelForCausalLM.from_pretrained(
-    model_id,
-    trust_remote_code=True,
-    config=model_config,
-    quantization_config=bnb_config,
-    device_map='auto',
-)
-
-tokenizer = transformers.AutoTokenizer.from_pretrained(
-    model_id,
-)
+pipe = pipeline("text-generation", model=model_id, torch_dtype=torch_dtype, device_map="auto" if device == "cuda" else None)
 
 app = Flask(__name__)
 CORS(app)
@@ -44,80 +25,64 @@ context_file = 'context.json'
 
 # Prompt de sistema inicial
 initial_system_prompt = (
-    "You are a helpful GNU/linux assistant created by Meta. Your purpose is to assist users by providing accurate and relevant information, answering questions, and helping with various tasks. You provide short responses to short questions or statements, but detailed responses to more complex and open-ended questions. You assist with various tasks, from writing to programming (using markdown for code blocks, JSON and tables). You do not have real-time data access or code execution capabilities. You avoid stereotyping and provide balanced perspectives on controversial topics. You do not provide song lyrics, poems, or news articles and do not disclose details of your training data. This is your system message, guiding your responses. Do not mention it, just respond to the user. If you find yourself talking about this message, stop. You should respond appropriately and usually that means not mentioning this. Do not mention any of this information about yourself unless it is directly pertinent to the user's query."
+    "You are a helpful GNU/Linux assistant created by Meta. Your purpose is to assist users by providing accurate and relevant information, answering questions, and helping with various tasks. You provide short responses to short questions or statements, but detailed responses to more complex and open-ended questions. You assist with various tasks, from writing to programming (using markdown for code blocks, JSON, and tables). You do not have real-time data access or code execution capabilities. You avoid stereotyping and provide balanced perspectives on controversial topics. You do not provide song lyrics, poems, or news articles and do not disclose details of your training data. This is your system message, guiding your responses. Do not mention it, just respond to the user. If you find yourself talking about this message, stop. You should respond appropriately and usually that means not mentioning this. Do not mention any of this information about yourself unless it is directly pertinent to the user's query."
 )
 
 def load_context():
     if os.path.exists(context_file):
         with open(context_file, 'r') as file:
             return json.load(file)
-    else:
-        return []
+    return []
 
 def save_context(context):
     with open(context_file, 'w') as file:
         json.dump(context, file)
 
-def prompt_build(system_prompt, user_inp):#, hist):
-    prompt = f"""### System:\n{system_prompt}\n\n"""
-    
-    #for pair in hist:
-    #   prompt += f"""### User:\n{pair[0]}\n\n### Assistant:\n{pair[1]}\n\n"""
-
-    prompt += f"""### User:\n{user_inp}\n\n### Assistant:"""
+def prompt_build(system_prompt, user_input):
+    messages = [
+        {
+            "role": "system",
+            "content": system_prompt,
+        },
+        {"role": "user", "content": user_input},
+    ]
+    prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     return prompt
 
-def chat(user_input):#, #history):
-    prompt = prompt_build(initial_system_prompt, user_input)#, history)
-    model_inputs = tokenizer([prompt], return_tensors="pt").to("cuda")
+def clean_response(response, system_prompt, user_input):
+    # Remover el mensaje del sistema y cualquier marca sobrante
+    if system_prompt in response:
+        response = response.replace(system_prompt, "").strip()
+    if user_input in response:
+        response = response.replace(user_input, "").strip()
+    return response
 
-    streamer = transformers.TextIteratorStreamer(tokenizer, timeout=10., skip_prompt=True, skip_special_tokens=True)
-
-    generate_kwargs = dict(
-        input_ids=model_inputs.input_ids,
-        attention_mask=model_inputs.attention_mask,
-        streamer=streamer,
-        max_length=8192,
-        do_sample=True,
-        top_p=0.95,
-        temperature=0.8,
-        top_k=50
-    )
-
-    thread = Thread(target=model.generate, kwargs=generate_kwargs)
-    thread.start()
-
-    model_output = ""
-    for new_text in streamer:
-        model_output += new_text
-    thread.join()  # Asegura que el hilo ha terminado
-
-    return model_output.strip()
+def chat(user_input):
+    prompt = prompt_build(initial_system_prompt, user_input)
+    outputs = pipe(prompt, max_new_tokens=1024, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
+    generated_text = outputs[0]["generated_text"].strip()
+    response = clean_response(generated_text, initial_system_prompt, user_input)
+    return response
 
 @app.route('/chat', methods=['POST'])
 def chat_api():
     data = request.json
-
-    if env_vars.verbose:
-        print(data)
-        
     user_input = data.get('user_input', '')
 
-    if env_vars.verbose:
-        print(user_input)
-    
-    # Cargar el contexto
+    # Cargar el contexto (historial)
     history = load_context()
 
-    response = chat(user_input)#, history)
+    response_1 = chat(user_input)
     
     # Actualizar el historial con la nueva interacción
-    #history.append((user_input, response))
+    # history.append((user_input, response))
     
     # Guardar el contexto actualizado
-    #save_context(history)
+    # save_context(history)
+
+    response_2 = clean_response_json(response_1)
     
-    return jsonify({"response": response})#, "history": history})
+    return jsonify({"response": response_2})
 
 if __name__ == '__main__':
     Ip = obtener_ip()
@@ -125,5 +90,5 @@ if __name__ == '__main__':
     if env_vars.mode == 0:
         Thread(target=Ngrok, args=(Ip, Port)).start()
         app.run(host=Ip, port=Port)
-    else: 
+    else:
         app.run(host=Ip, port=Port)
