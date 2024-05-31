@@ -1,12 +1,11 @@
 const { contextBridge, ipcRenderer } = require("electron");
-const axios = require("axios");
-
 const config = require("../utils/config");
 
 contextBridge.exposeInMainWorld("electron", {
+  getBaseUrl: () => ipcRenderer.invoke("get-base-url"),
   getCPUUsage: () => ipcRenderer.invoke("get-cpu-usage"),
-  getDiskUsage: () => ipcRenderer.invoke("get-disk-usage"),
   getRAMUsage: () => ipcRenderer.invoke("get-ram-usage"),
+  getDiskUsage: () => ipcRenderer.invoke("get-disk-usage"),
 });
 
 const attachContextData = () => {
@@ -20,14 +19,4 @@ const attachContextData = () => {
   }
 };
 
-window.addEventListener("DOMContentLoaded", async () => {
-  if (config.nodeEnv === "development") {
-    const response = await axios.get(config.lyraUrl);
-    window.lyraBaseUrl = response.data;
-  } else {
-    const baseUrl = `${config.host}:${config.apiPort}`;
-    window.lyraBaseUrl = baseUrl;
-  }
-
-  attachContextData();
-});
+window.addEventListener("DOMContentLoaded", () => attachContextData());

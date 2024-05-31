@@ -14,6 +14,7 @@ const config = require("./utils/config");
 const { getRAMUsage } = require("./OS/RAM");
 const { getCPUUsage } = require("./OS/CPU");
 const { getDiskUsage } = require("./OS/Disk");
+const { baseUrlLoader } = require("./OS/baseLoader");
 
 function createWindow() {
   const { height } = screen.getPrimaryDisplay().workAreaSize;
@@ -35,6 +36,17 @@ function createWindow() {
 
   if (config.nodeEnv === "production") {
     Menu.setApplicationMenu(null);
+
+    const pythonServer = spawn("python", [
+      "-u",
+      path.join(__dirname, "..", "backend", "app.py"),
+    ]);
+
+    pythonServer.stdout.on("data", (data) => console.log(`stdout: ${data}`));
+    pythonServer.stderr.on("data", (data) => console.error(`stderr: ${data}`));
+    pythonServer.on("close", (code) =>
+      console.log(`Python server exited with code ${code}`),
+    );
   }
 
   if (config.nodeEnv === "development") {
@@ -53,17 +65,6 @@ function createWindow() {
     return { action: "deny" };
   });
 }
-
-const pythonServer = spawn("python", [
-  "-u",
-  path.join(__dirname, "..", "backend", "app.py"),
-]);
-
-pythonServer.stdout.on("data", (data) => console.log(`stdout: ${data}`));
-pythonServer.stderr.on("data", (data) => console.error(`stderr: ${data}`));
-pythonServer.on("close", (code) =>
-  console.log(`Python server exited with code ${code}`),
-);
 
 app.whenReady().then(() => {
   createWindow();
@@ -86,3 +87,4 @@ app.on("window-all-closed", () => {
 ipcMain.handle("get-ram-usage", async () => await getRAMUsage());
 ipcMain.handle("get-cpu-usage", async () => await getCPUUsage());
 ipcMain.handle("get-disk-usage", async () => await getDiskUsage());
+ipcMain.handle("get-base-url", async () => await baseUrlLoader());

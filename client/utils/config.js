@@ -2,14 +2,12 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const defaultConfigPath = path.join(__dirname, "config", "default.json");
 const customConfigPaths = [
   path.join(os.homedir(), ".config", "lyra", "config.json"),
   path.join(os.homedir(), ".lyra", "config.json"),
 ];
 
 const loadConfig = () => {
-  let configPath = defaultConfigPath;
   let customPath;
 
   for (customPath of customConfigPaths) {

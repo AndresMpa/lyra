@@ -3,6 +3,7 @@ import {
   saveArrayToStorage,
   getItemFromStorage,
 } from "../utils/storageHandler.js";
+import { baseUrl } from "../OS/main.js";
 
 const promptChat = document.querySelector("#promptChat");
 
@@ -38,16 +39,14 @@ const createMessage = (content, messageType) => {
 };
 
 const askLyra = async (entry) => {
-  console.log(entry);
-
-  const rawData = await fetch(`${window.lyraBaseUrl}/chat`, {
+  const rawData = await fetch(`${baseUrl}/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_input: entry }),
   })
     .then((response) => response.json())
     .then((data) => data.response)
-    .catch((error) => console.error("Error en la solicitud fetch:", error));
+    .catch((error) => console.error("Error on fetch request: ", error));
 
   return rawData;
 };
