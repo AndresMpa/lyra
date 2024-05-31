@@ -1,6 +1,6 @@
 {
   "name": "lyra",
-  "version": "1.0.0",
+  "version": "1.1.0-beta",
   "description": "A virtual assistant for GNU/Linux",
   "repository": "https://github.com/AndresMpa/lyra",
   "homepage": "https://github.com/AndresMpa/lyra",
@@ -15,11 +15,12 @@
   ],
   "scripts": {
     "start": "electron ./main.js",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "postinstall": "cd backend && python3 -m venv venv && venv/bin/pip install -r requirements.txt"
   },
   "build": {
-    "appId": "lyra",
-    "productName": "Lyra: Your Cosmic Companion",
+    "appId": "Lyra: Your Cosmic Companion",
+    "productName": "lyra",
     "directories": {
       "output": "../dist",
       "buildResources": "assets"
