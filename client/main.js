@@ -16,6 +16,19 @@ const { getCPUUsage } = require("./OS/CPU");
 const { getDiskUsage } = require("./OS/Disk");
 const { baseUrlLoader } = require("./OS/baseLoader");
 
+let pythonServer;
+
+function setupPythonEnvironment() {
+  createVirtualEnv()
+    .then(() => installDependencies())
+    .then(() => {
+      pythonServer = runServerApp();
+    })
+    .catch((error) => {
+      console.error("Error setting up Python environment:", error);
+    });
+}
+
 function createWindow() {
   const { height } = screen.getPrimaryDisplay().workAreaSize;
 
@@ -36,17 +49,7 @@ function createWindow() {
 
   if (config.nodeEnv === "production") {
     Menu.setApplicationMenu(null);
-
-    const pythonServer = spawn("python", [
-      "-u",
-      path.join(__dirname, "..", "backend", "app.py"),
-    ]);
-
-    pythonServer.stdout.on("data", (data) => console.log(`stdout: ${data}`));
-    pythonServer.stderr.on("data", (data) => console.error(`stderr: ${data}`));
-    pythonServer.on("close", (code) =>
-      console.log(`Python server exited with code ${code}`),
-    );
+    setupPythonEnvironment();
   }
 
   if (config.nodeEnv === "development") {
@@ -76,7 +79,11 @@ app.whenReady().then(() => {
   });
 });
 
-app.on("before-quit", () => pythonServer.kill());
+app.on("before-quit", () => {
+  if (pythonServer) {
+    pythonServer.kill();
+  }
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
