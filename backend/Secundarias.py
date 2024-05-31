@@ -5,6 +5,7 @@ from threading import Thread
 from LlamadosExternos.FireBase import FIREBASE
 import json
 import re
+import markdown
 
 from config.env_vars import env_vars
 
@@ -57,5 +58,11 @@ def obtener_ip():
 def clean_response_json(response_json):
 
     data = response_json.replace('<|system|>\n</s>\n<|user|>\n</s>\n<|assistant|>\n', '')
+
+    data = data.replace('\n', '<br>')
+
+    html_response = markdown.markdown(data)
+
+    formatted_html = html_response
     
-    return data
+    return formatted_html
