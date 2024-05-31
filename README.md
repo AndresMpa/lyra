@@ -43,9 +43,9 @@ To setup the project as and user you can simple copy-paste the following json fi
 }
 ```
 
-Lyra can be installed using packages available for various Linux package managers. Below are the steps to install Lyra on your system:
-
 ##### Installation
+
+Lyra can be installed using packages available for various Linux package managers. Below are the steps to install Lyra on your system:
 
 > Note: Each VERSION is labeled as X.Z.Y-state X meaning major version, Z meaning minor version and Y as patch; -state means state of the build if there's no a -state for example 1.0.0 it means latest
 
