@@ -1,6 +1,13 @@
 [![banner](./.doc/assets/banner.png)](https://youtu.be/zPXIaCAu9xA)
 
 <div align="center">
+  
+---
+
+### ⚠️ This project have been moved to its own organization ⚠️
+Check its [new repostiory here](https://github.com/lyra-ai-assistant) 👈
+
+---
 
 # Welcome to Lyra
 
